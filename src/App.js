@@ -21,6 +21,32 @@ function App() {
     // 스트라이크 , 볼, 정답 유무
     const answers = answer.split('').map(item => Number(item));
 
+    if (answers.some(number => isNaN(number))) {
+      alert('숫자만 입력해주세요');
+      return;
+    }
+
+    if (answers.length !== 4) {
+      alert('4자리 숫자만 입력해주세요.');
+      return;
+    }
+    /* 중복여부 판단  */
+    const isDuplicate = answers.some(
+      number =>
+        // [1,2,3,4]
+        // -> 앞에서 탐색시 index 0
+        // -> 뒤에서 탐색시 index 0
+        // [1,1,2,4]
+        // -> 앞에서 탐색시 index 0
+        // -> 뒤에서부터 탐색시 index 1
+
+        answers.indexOf(number) !== answers.lastIndexOf(number)
+    );
+    if (isDuplicate) {
+      alert('입력 값에 중복이 있어요.');
+      return;
+    }
+
     const { strike, ball } = randomNumber.reduce(
       (prev, cur, index) => {
         // 같은 자리에 같은 수가 존재하면 스트라이크
